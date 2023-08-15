@@ -1,3 +1,11 @@
+# IDE STUFF
+.vscode
+
+# CMAKE STUFF
+build
+
+# CPP COMPILATION STUFF
+
 # Prerequisites
 *.d
 
