@@ -1,6 +1,8 @@
+#include "node.hpp"
+
 namespace avl
 {
-    class Node
+    node::node(int value) : value(value)
     {
-    };
+    }
 } // namespace avl

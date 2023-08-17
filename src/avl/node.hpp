@@ -1,4 +1,18 @@
-#ifndef AVL_NODE
-#define AVL_NODE
+#pragma once
 
-#endif
+#include <memory>
+
+namespace avl
+{
+    class node
+    {
+    private:
+        // todo remove the maybe unused later
+        [[maybe_unused]] int value;
+        std::unique_ptr<node> left;
+        std::unique_ptr<node> right;
+
+    public:
+        node(int value);
+    };
+}

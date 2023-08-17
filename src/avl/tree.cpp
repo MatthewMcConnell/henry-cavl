@@ -1,9 +1,29 @@
+#include "tree.hpp"
+
 namespace avl
 {
-    class Tree
+    tree::tree() {}
+
+    void tree::insert(int value)
     {
-    public:
-        Tree() {}
-        ~Tree() {}
-    };
+        // todo
+    }
+
+    bool tree::contains(int value)
+    {
+        // todo
+        return false;
+    }
+
+    bool tree::remove(int value)
+    {
+        // todo
+        return false;
+    }
+
+    int tree::size()
+    {
+        // todo
+        return 0;
+    }
 } // namespace avl
