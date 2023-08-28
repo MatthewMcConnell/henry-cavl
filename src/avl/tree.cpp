@@ -1,28 +1,23 @@
 #include "tree.hpp"
 
-namespace avl
-{
+namespace avl {
     tree::tree() {}
 
-    void tree::insert(int value)
-    {
+    void tree::insert(int value) {
         // todo
     }
 
-    bool tree::contains(int value)
-    {
+    bool tree::contains(int value) {
         // todo
         return false;
     }
 
-    bool tree::remove(int value)
-    {
+    bool tree::remove(int value) {
         // todo
         return false;
     }
 
-    int tree::size()
-    {
+    int tree::size() {
         // todo
         return 0;
     }

@@ -1,9 +1,8 @@
-#include <iostream>
-
 #include "avl/tree.hpp"
 
-int main()
-{
+#include <iostream>
+
+int main() {
     avl::tree t;
     t.insert(2);
     t.insert(5);

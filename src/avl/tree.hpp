@@ -1,16 +1,15 @@
 #pragma once
 
-#include <memory>
 #include "node.hpp"
 
-namespace avl
-{
-    class tree
-    {
-    private:
+#include <memory>
+
+namespace avl {
+    class tree {
+      private:
         std::unique_ptr<node> root;
 
-    public:
+      public:
         tree();
         void insert(int value);
         // add some kind of cpp docs here like java doc
@@ -19,4 +18,4 @@ namespace avl
         int size();
         // maybe more...
     };
-}
+} // namespace avl
