@@ -1,24 +1,26 @@
 #include "tree.hpp"
 
+#include <memory>
+
 namespace avl {
-    tree::tree() {}
+    tree::tree() : root(nullptr), treeSize(0) {}
 
     void tree::insert(int value) {
-        // todo
+        if (root == nullptr) {
+            root = std::make_unique<node>(value);
+        } else {
+            root->insert(value);
+        }
+        treeSize++;
     }
 
-    bool tree::contains(int value) {
-        // todo
-        return false;
+    bool tree::contains(int value) const {
+        return treeSize > 0 && root->contains(value);
     }
 
     bool tree::remove(int value) {
-        // todo
-        return false;
+        return root != nullptr || root->remove(value);
     }
 
-    int tree::size() {
-        // todo
-        return 0;
-    }
+    int tree::size() const { return treeSize; }
 } // namespace avl

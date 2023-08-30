@@ -12,5 +12,8 @@ namespace avl {
 
       public:
         node(int value);
+        void insert(int value);
+        bool contains(int value) const;
+        bool remove(int value);
     };
 } // namespace avl
