@@ -8,15 +8,15 @@ namespace avl {
     class tree {
       private:
         std::unique_ptr<node> root;
-        int treeSize;
+        int size;
 
       public:
         tree();
-        void insert(int value);
+        void insert(const int value);
         // add some kind of cpp docs here like java doc
-        bool remove(int value);
-        bool contains(int value) const;
-        int size() const;
+        bool remove(const int value);
+        bool contains(const int value) const;
+        int getSize() const;
         // maybe more...
     };
 } // namespace avl

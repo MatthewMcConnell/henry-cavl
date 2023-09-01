@@ -10,7 +10,7 @@ int main() {
     std::cout << t.contains(6) << std::endl;
     t.remove(5);
     t.remove(6);
-    std::cout << t.size() << std::endl;
+    std::cout << t.getSize() << std::endl;
 
     std::cout << "Hi, I'm Henry Cavl!" << std::endl;
 }

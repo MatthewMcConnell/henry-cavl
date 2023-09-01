@@ -3,24 +3,20 @@
 #include <memory>
 
 namespace avl {
-    tree::tree() : root(nullptr), treeSize(0) {}
+    tree::tree() : root(nullptr), size(0) {}
 
-    void tree::insert(int value) {
+    void tree::insert(const int value) {
         if (root == nullptr) {
             root = std::make_unique<node>(value);
         } else {
             root->insert(value);
         }
-        treeSize++;
+        size++;
     }
 
-    bool tree::contains(int value) const {
-        return treeSize > 0 && root->contains(value);
-    }
+    bool tree::contains(const int value) const { return root != nullptr && root->contains(value); }
 
-    bool tree::remove(int value) {
-        return root != nullptr || root->remove(value);
-    }
+    bool tree::remove(const int value) { return root != nullptr || root->remove(value); }
 
-    int tree::size() const { return treeSize; }
+    int tree::getSize() const { return size; }
 } // namespace avl
