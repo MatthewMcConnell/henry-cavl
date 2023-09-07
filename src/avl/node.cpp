@@ -19,5 +19,18 @@ namespace avl {
         return this->value == value || subtreeContains(left, value) || subtreeContains(right, value);
     }
 
+    bool node::insertIntoSubtree(std::unique_ptr<node>& subtree, const int value) {
+        if (subtree == nullptr) {
+            subtree = std::make_unique<node>(value);
+            return true;
+        }
+
+        return subtree->insert(value);
+    }
+
+    bool node::subtreeContains(const std::unique_ptr<node>& subtree, const int value) {
+        return subtree != nullptr && subtree->contains(value);
+    }
+
     bool node::remove(const int value) { return false; }
 } // namespace avl
