@@ -7,16 +7,16 @@ namespace avl {
 
     void tree::insert(const int value) {
         if (root == nullptr) {
-            root = std::make_unique<node>(value);
+            root = new node(value);
         } else {
-            root->insert(value);
+            root = node::insert(root, value);
         }
         size++;
     }
 
-    bool tree::contains(const int value) const { return root != nullptr && root->contains(value); }
+    bool tree::contains(const int value) const { return node::contains(root, value); }
 
-    bool tree::remove(const int value) { return root != nullptr && root->remove(value); }
+    // bool tree::remove(const int value) { return root != nullptr && root->remove(value); }
 
     int tree::getSize() const { return size; }
 } // namespace avl
