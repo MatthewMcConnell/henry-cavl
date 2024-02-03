@@ -1,11 +1,11 @@
 #pragma once
 
 #include <optional>
+
 namespace avl {
     class node {
       private:
-        // todo remove the maybe unused later
-        [[maybe_unused]] int value;
+        int value;
         node* left = nullptr;
         node* right = nullptr;
         int height = 1;
@@ -15,19 +15,19 @@ namespace avl {
         void rotateLeft();
 
         static std::optional<node*> doNormalBSTInsertion(node* root, int value) {
-            if (value == root->value) {
-                return root;
-            }
-
             if (root == nullptr) {
-                return new node(value);
+                return std::optional<node*>(new node(value));
             }
 
-            if (value < root->value) {
+            if (value == root->getValue()) {
+                return std::optional<node*>(root);
+            }
+
+            if (value < root->getValue()) {
                 root->left = insert(root->left, value);
             }
 
-            if (value > root->value) {
+            if (value > root->getValue()) {
                 root->right = insert(root->right, value);
             }
 
@@ -36,10 +36,10 @@ namespace avl {
 
       public:
         node(int value) : value(value) {}
+        int getValue() const { return this->value; }
 
         static node* insert(node* root, int value) {
-            // todo: why doesn't explicitly using the type work here with clang
-            auto newNode = doNormalBSTInsertion(root, value);
+            std::optional<node*> newNode = doNormalBSTInsertion(root, value);
 
             if (newNode.has_value()) {
                 return newNode.value();
@@ -49,7 +49,7 @@ namespace avl {
         }
 
         static bool contains(node* root, int value) {
-            if (root != nullptr) {
+            if (root == nullptr) {
                 return false;
             }
 
