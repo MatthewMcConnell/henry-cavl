@@ -16,7 +16,10 @@ namespace avl {
 
     bool tree::contains(const int value) const { return node::contains(root, value); }
 
-    // bool tree::remove(const int value) { return root != nullptr && root->remove(value); }
+    void tree::remove(const int value) {
+        root = node::remove(root, value);
+        size--;
+    }
 
     int tree::getSize() const { return size; }
 } // namespace avl

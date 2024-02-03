@@ -35,7 +35,7 @@ namespace avl {
         /**
          * @return std::optional<node*> - the node created or that was already present in the tree, otherwise empty
          */
-        static std::optional<node*> doNormalBSTInsertion(node* root, int value) {
+        static std::optional<node*> doBSTInsertion(node* root, int value) {
             if (root == nullptr) {
                 return std::optional(new node(value));
             }
@@ -61,16 +61,16 @@ namespace avl {
 
         static int getHeight(node* root) { return root == nullptr ? 0 : root->height; }
 
-        static node* rebalance(node* root, int value) {
+        static node* rebalance(node* root) {
             int balance = getBalance(root);
 
             if (balance > 1) {
-                if (value > root->left->value) {
+                if (getBalance(root->left) < 0) {
                     root->left = rotateLeft(root->left);
                 }
                 return rotateRight(root);
             } else if (balance < -1) {
-                if (value < root->right->value) {
+                if (getBalance(root->right) > 0) {
                     root->right = rotateRight(root->right);
                 }
                 return rotateLeft(root);
@@ -81,20 +81,63 @@ namespace avl {
 
         static int getBalance(node* root) { return getHeight(root->left) - getHeight(root->right); }
 
+        /**
+         * Does a BST removal in place, potentially altering the root node provided
+         */
+        static void doBSTRemoval(node* root, int value) {
+            if (root != nullptr) {
+                if (value < root->value) {
+                    root->left = remove(root->left, value);
+                } else if (value > root->value) {
+                    root->right = remove(root->right, value);
+                } else {
+                    if (root->left != nullptr && root->right != nullptr) {
+                        replaceWithMinValueInRightSubtree(root);
+                    } else {
+                        replaceWithChild(root);
+                    }
+                }
+            }
+        }
+
+        static void replaceWithChild(node* root) {
+            // TODO: ouch! by deleting the memory of the old root, we also deleted the pointer that we just set here,
+            //       leading not to nullptr being set in the parent node when there are no children but rather some
+            //       pointer to a random point in memory which leads to some funky-ness
+            node* oldRoot = root;
+            root = root->left != nullptr ? root->left : root->right;
+            delete oldRoot;
+        }
+
+        static void replaceWithMinValueInRightSubtree(node* root) {
+            int minValue = findAndRemoveMin(root->right);
+            root->value = minValue;
+        }
+
+        static int findAndRemoveMin(node* root) {
+            if (root->left == nullptr) {
+                int minValue = root->value;
+                node* temp = root;
+                root = root->right;
+                delete temp;
+                return minValue;
+            }
+
+            return findAndRemoveMin(root->left);
+        }
+
       public:
         node(int value) : value(value) {}
-        int getValue() const { return value; }
 
         static node* insert(node* root, int value) {
-            std::optional<node*> newNode = doNormalBSTInsertion(root, value);
+            std::optional<node*> newNode = doBSTInsertion(root, value);
 
             if (newNode.has_value()) {
                 return newNode.value();
             }
 
             updateHeight(root);
-
-            return rebalance(root, value);
+            return rebalance(root);
         }
 
         static bool contains(node* root, int value) {
@@ -113,6 +156,15 @@ namespace avl {
             return contains(root->right, value);
         }
 
-        node* remove(int value);
+        static node* remove(node* root, int value) {
+            doBSTRemoval(root, value);
+
+            if (root == nullptr) {
+                return nullptr;
+            }
+
+            updateHeight(root);
+            return rebalance(root);
+        }
     };
 } // namespace avl

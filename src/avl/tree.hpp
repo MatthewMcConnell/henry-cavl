@@ -12,7 +12,7 @@ namespace avl {
         tree();
         void insert(int value);
         // add some kind of cpp docs here like java doc
-        // void remove(int value);
+        void remove(int value);
         bool contains(int value) const;
         int getSize() const;
         // maybe more...
