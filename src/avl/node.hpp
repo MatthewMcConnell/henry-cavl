@@ -104,9 +104,9 @@ namespace avl {
             // TODO: ouch! by deleting the memory of the old root, we also deleted the pointer that we just set here,
             //       leading not to nullptr being set in the parent node when there are no children but rather some
             //       pointer to a random point in memory which leads to some funky-ness
-            node* oldRoot = root;
-            root = root->left != nullptr ? root->left : root->right;
-            delete oldRoot;
+            node* newRoot = root->left != nullptr ? root->left : root->right;
+            root = newRoot;
+            delete newRoot;
         }
 
         static void replaceWithMinValueInRightSubtree(node* root) {

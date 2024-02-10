@@ -18,7 +18,7 @@ namespace avl {
 
     void tree::remove(const int value) {
         root = node::remove(root, value);
-        size--;
+        size--; // bug here since we don't always remove a value actually
     }
 
     int tree::getSize() const { return size; }
