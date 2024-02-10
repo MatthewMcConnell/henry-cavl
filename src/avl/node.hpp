@@ -1,6 +1,8 @@
 #pragma once
 
+#include <iostream>
 #include <optional>
+#include <queue>
 
 namespace avl {
     class node {
@@ -79,12 +81,17 @@ namespace avl {
             return root;
         }
 
-        static int getBalance(node* root) { return getHeight(root->left) - getHeight(root->right); }
+        static int getBalance(node* root) {
+            if (root == nullptr) {
+                return 0;
+            }
+            return getHeight(root->left) - getHeight(root->right);
+        }
 
         /**
          * Does a BST removal in place, potentially altering the root node provided
          */
-        static void doBSTRemoval(node* root, int value) {
+        static void doBSTRemoval(node*& root, int value) {
             if (root != nullptr) {
                 if (value < root->value) {
                     root->left = remove(root->left, value);
@@ -100,30 +107,24 @@ namespace avl {
             }
         }
 
-        static void replaceWithChild(node* root) {
-            // TODO: ouch! by deleting the memory of the old root, we also deleted the pointer that we just set here,
-            //       leading not to nullptr being set in the parent node when there are no children but rather some
-            //       pointer to a random point in memory which leads to some funky-ness
+        static void replaceWithChild(node*& root) {
             node* newRoot = root->left != nullptr ? root->left : root->right;
+            delete root;
             root = newRoot;
-            delete newRoot;
         }
 
-        static void replaceWithMinValueInRightSubtree(node* root) {
-            int minValue = findAndRemoveMin(root->right);
+        static void replaceWithMinValueInRightSubtree(node*& root) {
+            int minValue = findMin(root->right);
             root->value = minValue;
+            root->right = remove(root->right, minValue);
         }
 
-        static int findAndRemoveMin(node* root) {
+        static int findMin(node*& root) {
             if (root->left == nullptr) {
-                int minValue = root->value;
-                node* temp = root;
-                root = root->right;
-                delete temp;
-                return minValue;
+                return root->value;
             }
 
-            return findAndRemoveMin(root->left);
+            return findMin(root->left);
         }
 
       public:
@@ -165,6 +166,26 @@ namespace avl {
 
             updateHeight(root);
             return rebalance(root);
+        }
+
+        static void printStructure(node* root) {
+            std::queue<node*> nodes;
+            nodes.push(root);
+            while (!nodes.empty()) {
+                node* current = nodes.front();
+                nodes.pop();
+
+                std::cout << current->value << " ";
+
+                if (current->left != nullptr) {
+                    nodes.push(current->left);
+                }
+
+                if (current->right != nullptr) {
+                    nodes.push(current->right);
+                }
+            }
+            std::cout << std::endl;
         }
     };
 } // namespace avl

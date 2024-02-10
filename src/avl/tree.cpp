@@ -1,5 +1,6 @@
 #include "tree.hpp"
 
+#include <iostream>
 #include <memory>
 
 namespace avl {
@@ -22,4 +23,12 @@ namespace avl {
     }
 
     int tree::getSize() const { return size; }
+
+    void tree::printStructure() {
+        if (root == nullptr) {
+            std::cout << "Tree is empty" << std::endl;
+        } else {
+            node::printStructure(root);
+        }
+    }
 } // namespace avl
